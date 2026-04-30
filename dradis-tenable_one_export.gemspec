@@ -1,14 +1,14 @@
 $:.push File.expand_path('../lib', __FILE__)
-require 'dradis/plugins/csv_export/version'
-version = Dradis::Plugins::CSVExport::VERSION::STRING
+require 'dradis/plugins/tenable_one_export/version'
+version = Dradis::Plugins::TenableOneExport::VERSION::STRING
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |spec|
   spec.platform = Gem::Platform::RUBY
-  spec.name = 'dradis-csv_export'
+  spec.name = 'dradis-tenable_one_export'
   spec.version = version
-  spec.summary = 'CSV export plugin for the Dradis Framework.'
-  spec.description = 'This plugin allows you to export your Dradis results in CSV format.'
+  spec.summary = 'Tenable One CSV export plugin for the Dradis Framework.'
+  spec.description = 'This plugin allows you to export your Dradis issues to the Tenable One Open Connector CSV format.'
 
   spec.license = 'GPL-2'
 

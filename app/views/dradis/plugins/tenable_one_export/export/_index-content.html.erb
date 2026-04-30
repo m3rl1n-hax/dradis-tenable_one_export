@@ -1,0 +1,11 @@
+<%= content_tag :div, id: 'plugin-tenable_one_export', class: 'tab-pane fade' do %>
+  <%= form_tag tenable_one_export.project_report_path(current_project) do %>
+    <h4 class="header-underline mb-0">Export to Tenable One CSV</h4>
+    <p class="mb-0">
+      Exports all issues mapped to Tenable One Open Connector fields. Author: James Wyatt 2026
+    </p>
+    <div class="mt-4">
+      <%= render partial: 'export/submit_button', locals: { plugin_name: Dradis::Plugins::TenableOneExport::Engine.plugin_name } %>
+    </div>
+  <% end %>
+<% end%>

@@ -6,4 +6,4 @@ require 'dradis-plugins'
 require 'csv'
 
 # Load this add-on's engine
-require 'dradis/plugins/csv_export'
+require 'dradis/plugins/tenable_one_export'

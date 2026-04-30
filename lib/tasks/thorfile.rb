@@ -23,7 +23,7 @@ class CSVTasks < Thor
 
     detect_and_set_project_scope
 
-    exporter = Dradis::Plugins::CSVExport::Exporter.new(task_options)
+    exporter = Dradis::Plugins::TenableOneExport::Exporter.new(task_options)
     csv = exporter.export()
 
     File.open(report_path, 'w') { |f| f.write csv }

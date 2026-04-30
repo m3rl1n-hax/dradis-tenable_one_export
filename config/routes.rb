@@ -1,5 +1,5 @@
-Dradis::Plugins::CSVExport::Engine.routes.draw do
+Dradis::Plugins::TenableOneExport::Engine.routes.draw do
   resources :projects, only: [] do
-    resource :report, only: [:create], path: '/export/csv/reports'
+    resource :report, only: [:create], path: '/export/tenable-one/reports'
   end
 end

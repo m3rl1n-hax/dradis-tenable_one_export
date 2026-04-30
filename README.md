@@ -1,40 +1,111 @@
-# CSV plugin for Dradis
+# Dradis Tenable One Export Plugin
 
-[![Build Status](https://secure.travis-ci.org/dradis/dradis-csv_export.png?branch=master)](http://travis-ci.org/dradis/dradis-csv_export)
+Exports Dradis issues into a CSV format designed for the Tenable One Open Connector.
 
-Export Dradis findings into Comma Separated Value (CSV) format.
+## Features
 
+- Fixed CSV schema for Tenable One ingestion
+- Null-safe output
+- Field-name fallbacks for common Dradis templates
+- Static `Pentest` tag for downstream filtering
+- ISO 8601 timestamps for export-derived date fields
+
+## CSV Fields
+
+The exporter produces the following columns:
+
+- Asset Name
+- Asset Last Observed At
+- Finding First Seen
+- Finding Name
+- Finding Description
+- Finding Generic Details
+- Finding Solutions
+- Finding Proof
+- Finding State
+- Severity
+- Tags
+
+## Field Mapping
+
+| Tenable One CSV Field | Dradis Source |
+|---|---|
+| Asset Name | Dradis project name |
+| Asset Last Observed At | Export timestamp |
+| Finding First Seen | Export timestamp |
+| Finding Name | Title, FindingName, Name |
+| Finding Description | Description, FindingDescription, Details, Overview |
+| Finding Generic Details | Risk and References joined |
+| Finding Solutions | Remediation, Solution, Recommendation, Recommendations, Fix |
+| Finding Proof | StepsToReproduce, Proof, Evidence, ReproductionSteps, Steps To Reproduce |
+| Finding State | Static value: Active |
+| Severity | Rating, Severity, RiskRating, Risk Rating |
+| Tags | Static value: Pentest |
 
 ## Installation
 
-The add-on requires [Dradis CE](https://dradis.com/ce/) > 3.0, or [Dradis Pro](https://dradis.com/).
+Add the plugin to your `Gemfile.plugins`:
 
-Add the CSV plugin to your `Gemfile.plugins`:
+    gem 'dradis-tenable_one_export'
 
-    gem 'dradis-csv_export'
-
-And
+Then run:
 
     bundle install
 
-And restart your service.
+Restart Dradis.
 
+## Installation from a Local Path
 
-## More information
+For local testing:
 
-See the Dradis Framework's [README.md](https://github.com/dradis/dradis-ce/blob/develop/README.md)
+    gem 'dradis-tenable_one_export', path: '/opt/dradis-tenable_one_export'
 
+Then run:
 
-## Contributing
+    bundle install
 
-See the Dradis Framework's [CONTRIBUTING.md](https://github.com/dradis/dradis-ce/blob/develop/CONTRIBUTING.md)
+Restart Dradis.
 
+## Dradis Pro Notes
 
-## License
+Before changing plugins in Dradis Pro, back up the plugin file:
 
-Dradis Framework and all its components are released under [GNU General Public License version 2.0](http://www.gnu.org/licenses/old-licenses/gpl-2.0.html) as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.
+    cp Gemfile.plugins Gemfile.plugins.bak
 
+Install or update dependencies:
 
-## Feature requests and bugs
+    bundle install --local
+    bundle check
 
-Please use the [Dradis Framework issue tracker](https://github.com/dradis/dradis-ce/issues) for add-on improvements and bug reports.
+Restart Dradis Pro Puma:
+
+    god restart dradispro-puma
+    god status
+
+Confirm the Puma socket exists:
+
+    ls -la /opt/dradispro/dradispro/shared/sockets/
+
+## Uninstall
+
+Remove the plugin line from `Gemfile.plugins`.
+
+Then run:
+
+    bundle install --local
+    bundle check
+
+Restart Dradis Pro Puma:
+
+    god restart dradispro-puma
+    god status
+
+## Tenable One Open Connector
+
+After export, upload the generated CSV into the Tenable One Open Connector and map the CSV columns to the relevant Tenable fields.
+
+The `Tags` column is populated with `Pentest` to help identify imported penetration test findings downstream.
+
+## Version
+
+Current version: `0.1.0`
